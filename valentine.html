@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #ff4d6d, #ff758f);
+  height: 100vh;
+  margin: 0;
+  color: white;
+  text-align: center;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  background: rgba(0,0,0,0.25);
+  padding: 30px;
+  border-radius: 20px;
+  max-width: 360px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  z-index: 2;
+}
+
+button {
+  font-size: 15px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  margin: 8px;
+}
+
+#yes { background: #2ecc71; color: white; }
+#no {
+  background: #e74c3c;
+  color: white;
+  position: absolute;
+}
+
+.option-btn {
+  background: white;
+  color: #ff4d6d;
+  font-weight: bold;
+}
+
+/* Hearts */
+.heart {
+  position: absolute;
+  bottom: -10px;
+  font-size: 20px;
+  animation: floatUp 6s linear infinite;
+}
+@keyframes floatUp {
+  to { transform: translateY(-110vh); opacity: 0; }
+}
+
+/* Confetti */
+.confetti {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  top: -10px;
+  animation: fall 4s linear infinite;
+}
+@keyframes fall {
+  to { transform: translateY(110vh) rotate(360deg); }
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🎶 Music -->
+<audio id="bgMusic" loop>
+  <source src="her.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card" id="mainCard">
+  <h1>Hey Love 💕</h1>
+  <p>From my heart to this screen...<br>Will you be my Valentine?</p>
+  <button id="yes" onclick="sayYes()">Yes</button>
+  <button id="no" onmouseover="moveNo()">No</button>
+</div>
+
+<script>
+// Floating hearts
+setInterval(() => {
+  const h = document.createElement("div");
+  h.className = "heart";
+  h.innerHTML = "❤️";
+  h.style.left = Math.random() * 100 + "vw";
+  h.style.fontSize = (Math.random() * 20 + 15) + "px";
+  document.body.appendChild(h);
+  setTimeout(() => h.remove(), 6000);
+}, 400);
+
+function sayYes() {
+  mainCard.innerHTML = `
+    <h1>YAYYYY 💖</h1>
+    <p>One more thing first 🥰</p>
+
+    <button class="option-btn" onclick="playMusic()">Play Music 🎶</button>
+  `;
+}
+
+function playMusic() {
+  const music = document.getElementById("bgMusic");
+  music.volume = 0.7;
+  music.play();
+
+  mainCard.innerHTML = `
+    <h2>Choose our date plan 💕</h2>
+    <button class="option-btn" onclick="chooseActivity()">Movie 🎬</button>
+    <button class="option-btn" onclick="chooseActivity()">Bowling 🎳</button>
+    <button class="option-btn" onclick="chooseActivity()">Netflix & Chill 📺</button>
+    <div id="next"></div>
+  `;
+}
+
+function chooseActivity() {
+  document.getElementById("next").innerHTML = `
+    <h3>What should we eat? 🍽️</h3>
+    <button class="option-btn" onclick="pickFood()">Pizza 🍕</button>
+    <button class="option-btn" onclick="pickFood()">Sushi 🍣</button>
+  `;
+}
+
+function pickFood() {
+  mainCard.innerHTML = `
+    <h2>Save the Date 💘</h2>
+    <label>
+      <input type="radio" checked disabled>
+      <strong>14 February, 13:00</strong>
+    </label><br><br>
+    <button class="option-btn" onclick="finalScreen()">Confirm ❤️</button>
+  `;
+}
+
+function finalScreen() {
+  document.body.innerHTML = `
+    <div style="
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      flex-direction:column;
+      background:linear-gradient(135deg,#ff4d6d,#ff758f);
+      color:white;">
+      <h1 style="font-size:42px;">I LOVE YOU YUKI ❤️</h1>
+      <p>Forever & Always 💖</p>
+    </div>
+  `;
+
+  for (let i = 0; i < 150; i++) {
+    const c = document.createElement("div");
+    c.className = "confetti";
+    c.style.left = Math.random() * 100 + "vw";
+    c.style.backgroundColor =
+      ["#ff4d6d","#fff","#ffeb3b","#4caf50","#03a9f4"][Math.floor(Math.random()*5)];
+    c.style.animationDuration = (Math.random() * 3 + 2) + "s";
+    document.body.appendChild(c);
+  }
+}
+
+function moveNo() {
+  no.style.left = Math.random() * (window.innerWidth - 100) + "px";
+  no.style.top = Math.random() * (window.innerHeight - 50) + "px";
+}
+</script>
+
+</body>
+</html>
